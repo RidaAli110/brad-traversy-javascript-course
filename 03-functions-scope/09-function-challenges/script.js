@@ -24,3 +24,7 @@ function countEvenNumbers(arr) {
   return count;
 }
 console.log(countEvenNumbers([1, 2, 3, 4, 5, 6]));
+function capitalizeName(name) {
+  return name[0].toUpperCase() + name.slice(1).toLowerCase();
+}
+console.log(capitalizeName('aLEX'));
