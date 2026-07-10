@@ -39,12 +39,14 @@ function createIcon (classes){
      return icon;
 }
 
+// remove items with the delete icon
 function removeItem (e) {
      if (e.target.parentElement.classList.contains('remove-item')){
           e.target.parentElement.parentElement.remove();
      }
 }
 
+// Clear items button
 function clearItems(){
      while(itemList.firstChild) {
           itemList.removeChild(itemList.firstChild);
