@@ -27,11 +27,16 @@ function onAddItemSubmit(e) {
 
   // check for edit mode
   if (isEditMode) {
-     const itemToEdit = itemList.querySelector('.edit-mode');
-     removeItemFromStorage(itemToEdit.textContent);
-     itemToEdit.classList.remove('edit-mode');
-     itemToEdit.remove();
-     isEditMode = false;
+    const itemToEdit = itemList.querySelector('.edit-mode');
+    removeItemFromStorage(itemToEdit.textContent);
+    itemToEdit.classList.remove('edit-mode');
+    itemToEdit.remove();
+    isEditMode = false;
+  } else {
+     if (checkIfItemExists(newItem)){
+          alert('This item already exists!');
+          return;
+     }
   }
   // create item DOM element
   addItemToDOM(newItem);
@@ -93,19 +98,25 @@ function itemClick(e) {
   if (e.target.parentElement.classList.contains('remove-item')) {
     removeItem(e.target.parentElement.parentElement);
   } else {
-     setItemToEdit(e.target);
+    setItemToEdit(e.target);
   }
 }
 
-function setItemToEdit(item){
-     isEditMode = true;
-     itemList.querySelectorAll('li')
-     .forEach((i) => i.classList.remove('edit-mode'))
-     item.classList.add('edit-mode');
-     formBtn.innerHTML = '<i class = "fa-solid fa-pen"></i> Update Item';
-     formBtn.style.backgroundColor = '#228b22'
-     itemInput.value = item.textContent;
-};
+function checkIfItemExists(item) {
+  const shopppingListStorage = getItemsFromStorage();
+  return shopppingListStorage.includes(item);
+}
+
+function setItemToEdit(item) {
+  isEditMode = true;
+  itemList
+    .querySelectorAll('li')
+    .forEach((i) => i.classList.remove('edit-mode'));
+  item.classList.add('edit-mode');
+  formBtn.innerHTML = '<i class = "fa-solid fa-pen"></i> Update Item';
+  formBtn.style.backgroundColor = '#228b22';
+  itemInput.value = item.textContent;
+}
 
 // remove items with the delete icon
 function removeItem(item) {
@@ -156,7 +167,7 @@ function filterItems(e) {
 }
 
 function checkUI() {
-     itemInput.value = '';
+  itemInput.value = '';
 
   const allItems = itemList.querySelectorAll('li');
 
