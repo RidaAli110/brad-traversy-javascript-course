@@ -6,7 +6,13 @@ const itemList = document.getElementById('item-list');
 const clearBtn = document.getElementById('clear');
 const itemFilter = document.getElementById('filter');
 
-function addItem(e) {
+function displayItems() {
+  const shopppingListStorage = getItemsFromStorage();
+  shopppingListStorage.forEach((item) => addItemToDOM(item));
+  checkUI();
+}
+
+function onAddItemSubmit(e) {
   e.preventDefault();
 
   const newItem = itemInput.value;
@@ -16,17 +22,27 @@ function addItem(e) {
     alert('Please add an item');
     return;
   }
+  // create item DOM element
+  addItemToDOM(newItem);
+
+  // Add item to local storage
+  addItemToStorage(newItem);
+
+  checkUI();
+  itemInput.value = '';
+}
+
+function addItemToDOM(item) {
   // create list item
   const li = document.createElement('li');
-  li.appendChild(document.createTextNode(newItem));
+  li.appendChild(document.createTextNode(item));
 
   const button = createButton('remove-item btn-link text-red');
   li.appendChild(button);
   // Add li to DOM
   itemList.appendChild(li);
-  checkUI();
-  itemInput.value = '';
 }
+
 function createButton(classes) {
   const button = document.createElement('button');
   button.className = classes;
@@ -39,6 +55,27 @@ function createIcon(classes) {
   const icon = document.createElement('i');
   icon.className = classes;
   return icon;
+}
+
+function addItemToStorage(item) {
+  const shopppingListStorage = getItemsFromStorage();
+
+  // Add new item to Array
+  shopppingListStorage.push(item);
+
+  //Convert to JSON string and set to local storage
+  localStorage.setItem('items', JSON.stringify(shopppingListStorage));
+}
+
+function getItemsFromStorage() {
+  let shopppingListStorage;
+
+  if (localStorage.getItem('items') === null) {
+    shopppingListStorage = [];
+  } else {
+    shopppingListStorage = JSON.parse(localStorage.getItem('items'));
+  }
+  return shopppingListStorage;
 }
 
 // remove items with the delete icon
@@ -65,6 +102,7 @@ function clearItems() {
   checkUI();
 }
 
+// Filter
 function filterItems(e) {
   const allItems = itemList.querySelectorAll('li');
   const text = e.target.value.toLowerCase();
@@ -91,10 +129,15 @@ function checkUI() {
   }
 }
 
-// Event listners
-itemForm.addEventListener('submit', addItem);
-itemList.addEventListener('click', removeItem);
-clearBtn.addEventListener('click', clearItems);
-itemFilter.addEventListener('input', filterItems);
+// Initialise app
+function init() {
+  // Event listners
+  itemForm.addEventListener('submit', onAddItemSubmit);
+  itemList.addEventListener('click', removeItem);
+  clearBtn.addEventListener('click', clearItems);
+  itemFilter.addEventListener('input', filterItems);
+  document.addEventListener('DOMContentLoaded', displayItems);
 
-checkUI();
+  checkUI();
+}
+init();
