@@ -44,7 +44,10 @@ function createIcon (classes){
 // remove items with the delete icon
 function removeItem (e) {
      if (e.target.parentElement.classList.contains('remove-item')){
-          e.target.parentElement.parentElement.remove();
+          if (confirm('Are you sure?')){
+               e.target.parentElement.parentElement.remove();
+
+          }
      }
      checkUI();
 }
@@ -52,7 +55,9 @@ function removeItem (e) {
 // Clear items button 
 function clearItems(){
 // used syntax i recently learned to clear all items
-     itemList.replaceChildren();
+     if (confirm('Are you sure?')){
+          itemList.replaceChildren();
+     }
 
 /* Brad's way of doing this 
      while (itemList.firstChild) {
@@ -62,7 +67,6 @@ checkUI();
 };
 
 function checkUI() {
-     console.log('checkUI running');
      const allItems = itemList.querySelectorAll('li');
      const Itemfilter = document.getElementById('filter');
 
