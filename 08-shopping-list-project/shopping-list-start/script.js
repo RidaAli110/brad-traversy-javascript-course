@@ -46,11 +46,10 @@ function removeItem (e) {
      }
 }
 
-// Clear items button
+// Clear items button 
 function clearItems(){
-     while(itemList.firstChild) {
-          itemList.removeChild(itemList.firstChild);
-     }
+// used syntax i recently learned to clear all items
+     itemList.replaceChildren();
 };
 
 // Event listners
