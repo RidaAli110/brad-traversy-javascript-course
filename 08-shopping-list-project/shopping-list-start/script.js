@@ -78,14 +78,28 @@ function getItemsFromStorage() {
   return shopppingListStorage;
 }
 
-// remove items with the delete icon
-function removeItem(e) {
+function itemClick(e) {
   if (e.target.parentElement.classList.contains('remove-item')) {
-    if (confirm('Are you sure?')) {
-      e.target.parentElement.parentElement.remove();
-    }
+    removeItem(e.target.parentElement.parentElement);
   }
-  checkUI();
+}
+
+// remove items with the delete icon
+function removeItem(item) {
+  if (confirm('Are you sure?')) {
+    item.remove();
+
+    removeItemFromStorage(item.textContent);
+
+    checkUI();
+  }
+}
+
+function removeItemFromStorage(item) {
+  let shopppingListStorage = getItemsFromStorage();
+  shopppingListStorage = shopppingListStorage.filter((i) => i !== item);
+
+  localStorage.setItem('items', JSON.stringify(shopppingListStorage));
 }
 
 // Clear items button
@@ -99,6 +113,7 @@ function clearItems() {
      while (itemList.firstChild) {
   itemList.removeChild(itemList.firstChild);
 }*/
+  localStorage.removeItem('items');
   checkUI();
 }
 
@@ -133,7 +148,7 @@ function checkUI() {
 function init() {
   // Event listners
   itemForm.addEventListener('submit', onAddItemSubmit);
-  itemList.addEventListener('click', removeItem);
+  itemList.addEventListener('click', itemClick);
   clearBtn.addEventListener('click', clearItems);
   itemFilter.addEventListener('input', filterItems);
   document.addEventListener('DOMContentLoaded', displayItems);
