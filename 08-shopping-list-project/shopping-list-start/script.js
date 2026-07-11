@@ -21,7 +21,9 @@ function addItem(e) {
 
      const button = createButton('remove-item btn-link text-red');
      li.appendChild(button);
+     // Add li to DOM
      itemList.appendChild(li);
+     checkUI();
      itemInput.value = '';
 
 }
@@ -44,21 +46,39 @@ function removeItem (e) {
      if (e.target.parentElement.classList.contains('remove-item')){
           e.target.parentElement.parentElement.remove();
      }
+     checkUI();
 }
 
 // Clear items button 
 function clearItems(){
 // used syntax i recently learned to clear all items
      itemList.replaceChildren();
-     
+
 /* Brad's way of doing this 
      while (itemList.firstChild) {
   itemList.removeChild(itemList.firstChild);
 }*/
+checkUI();
 };
+
+function checkUI() {
+     console.log('checkUI running');
+     const allItems = itemList.querySelectorAll('li');
+     const Itemfilter = document.getElementById('filter');
+
+     if (allItems.length === 0){
+          clearBtn.style.display = 'none';
+          Itemfilter.style.display = 'none';
+     }else {
+           clearBtn.style.display = 'block';
+          Itemfilter.style.display = 'block';
+     }
+}
+
 
 // Event listners
 itemForm.addEventListener('submit', addItem);
 itemList.addEventListener('click', removeItem);
 clearBtn.addEventListener('click', clearItems);
 
+checkUI();
