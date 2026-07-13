@@ -73,6 +73,7 @@ function createIcon(classes) {
   return icon;
 }
 
+// Add item to local storage
 function addItemToStorage(item) {
   const shopppingListStorage = getItemsFromStorage();
 
@@ -83,6 +84,7 @@ function addItemToStorage(item) {
   localStorage.setItem('items', JSON.stringify(shopppingListStorage));
 }
 
+// 
 function getItemsFromStorage() {
   let shopppingListStorage;
 
@@ -129,6 +131,7 @@ function removeItem(item) {
   }
 }
 
+// remove item from local storage
 function removeItemFromStorage(item) {
   let shopppingListStorage = getItemsFromStorage();
   shopppingListStorage = shopppingListStorage.filter((i) => i !== item);
@@ -147,6 +150,8 @@ function clearItems() {
      while (itemList.firstChild) {
   itemList.removeChild(itemList.firstChild);
 }*/
+
+// remove items from local storage when lear all button is clicked
   localStorage.removeItem('items');
   checkUI();
 }
