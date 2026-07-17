@@ -19,7 +19,7 @@ fetch('https://api.github.com/users/RidaAli110')
     console.log(username);
     document.querySelector('h1').textContent = `My GitHub username is ${username}`
     const h3 = document.createElement('h3');
-    const text = document.createTextNode(`My GitHub user is ${username}`);
+    const text = document.createTextNode(`My GitHub was created on  ${data.created_at}`);
     h3.appendChild(text)
     document.body.appendChild(h3);
     h3.style.color = 'green';
