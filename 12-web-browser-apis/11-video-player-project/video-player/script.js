@@ -53,4 +53,4 @@ video.addEventListener('play', updateIcon);
 video.addEventListener('timeupdate', updateProgress);
 play.addEventListener('click', playPause);
 stop.addEventListener('click', stopVideo);
-progress.addEventListener('click', setProgress);
+progress.addEventListener('input', setProgress);
